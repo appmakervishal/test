@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lua.js Loader Demo</title>
+    <title>PHP-WASM Loader Demo</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<h1>Lua.js Loader Demo ✅</h1>
+<h1>PHP-WASM Loader Demo ✅</h1>
 
-<!-- Load loader script first -->
-<script type="module" src="https://appmakervishal.github.io/agni-script/lua.js"></script>
+<!-- Loader -->
+<script type="module" src="https://appmakervishal.github.io/agni-script/php.js"></script>
 
-<!-- Anywhere in your HTML you can put <lua> tags -->
-<lua>
-print("Hello from the first lua tag!")
-</lua>
+<!-- PHP blocks anywhere -->
+<php>
+echo "Hello from the first <php> tag!\n";
+</php>
 
-<lua>
-for i = 1, 5 do
-    print("Counting Lua: " .. i)
-end
-</lua>
+<php>
+for ($i = 1; $i <= 5; $i++) {
+    echo "Counting PHP: $i\n";
+}
+</php>
 
-<lua>
-print("This is another block. Output appears below it.")
-</lua>
+<php>
+echo "This is another <php> block. Output appears below it.";
+</php>
 
 </body>
 </html>
