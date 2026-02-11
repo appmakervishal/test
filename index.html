@@ -1,30 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>PHP-WASM Loader Demo</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP.js Loader Demo</title>
+    <script src="php.js"></script>
 </head>
-<body>
+<body style="font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px;">
 
-<h1>PHP-WASM Loader Demo ✅</h1>
+    <h1>PHP.js Loader Demo ✅</h1>
+    <p>The following blocks are running <strong>PHP 8.x</strong> entirely in your browser via WebAssembly.</p>
 
-<!-- Loader -->
-<script type="module" src="https://appmakervishal.github.io/agni-script/php.js"></script>
+    <php>
+        echo "Hello from the first <php> tag!\n";
+        echo "Server Time: " . date('H:i:s');
+    </php>
 
-<!-- PHP blocks anywhere -->
-<php>
-echo "Hello from the first <php> tag!\n";
-</php>
+    <php>
+        $fruits = ['Apple', 'Banana', 'Orange'];
+        foreach ($fruits as $fruit) {
+            echo "• Eating a $fruit...\n";
+        }
+    </php>
 
-<php>
-for ($i = 1; $i <= 5; $i++) {
-    echo "Counting PHP: $i\n";
-}
-</php>
-
-<php>
-echo "This is another <php> block. Output appears below it.";
-</php>
+    <php>
+        // Mathematical constants in PHP
+        echo "Value of PI: " . M_PI;
+    </php>
 
 </body>
 </html>
