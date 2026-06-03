@@ -1,34 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP.js Loader Demo</title>
-    <script src="https://appmakervishal.github.io/agni-script/php.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Encryptor</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#0f172a);
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:900px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:25px;
+    padding:30px;
+    color:white;
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+    font-size:2.3rem;
+}
+
+.subtitle{
+    text-align:center;
+    opacity:.8;
+    margin-bottom:25px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+@media(max-width:700px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+input,textarea{
+    width:100%;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    padding:14px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    margin-bottom:15px;
+}
+
+textarea{
+    resize:vertical;
+    min-height:180px;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#bbb;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.encrypt{
+    background:#22c55e;
+    color:white;
+}
+
+.decrypt{
+    background:#3b82f6;
+    color:white;
+}
+
+.copy{
+    background:#f59e0b;
+    color:white;
+}
+
+.clear{
+    background:#ef4444;
+    color:white;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.output{
+    margin-top:20px;
+    background:rgba(255,255,255,.05);
+    border-radius:15px;
+    padding:15px;
+    min-height:100px;
+    word-break:break-word;
+}
+
+.footer{
+    margin-top:20px;
+    text-align:center;
+    opacity:.7;
+}
+</style>
 </head>
-<body style="font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px;">
+<body>
 
-    <h1>PHP.js Loader Demo ✅</h1>
-    <p>The following blocks are running <strong>PHP 8.x</strong> entirely in your browser via WebAssembly.</p>
+<div class="container">
 
-    <php>
-        echo "Hello from the first  tag!\n";
-        echo "Server Time: " . date('H:i:s');
-    </php>
+<h1>🔐 Secure Encryptor</h1>
+<p class="subtitle">Encrypt and decrypt text using your secret key</p>
 
-    <php>
-        $fruits = ['Apple', 'Banana', 'Orange'];
-        foreach ($fruits as $fruit) {
-            echo "• Eating a $fruit...\n";
-        }
-    </php>
+<div class="grid">
 
-    <php>
-        // Mathematical constants in PHP
-        echo "Value of PI: " . M_PI;
-    </php>
+<div class="card">
+<label>Secret Key</label>
+<input type="password" id="key" placeholder="Enter key">
+
+<label>Input Text</label>
+<textarea id="text" placeholder="Type text or encrypted data"></textarea>
+
+<div class="actions">
+<button class="encrypt" onclick="encryptText()">Encrypt</button>
+<button class="decrypt" onclick="decryptText()">Decrypt</button>
+<button class="clear" onclick="clearAll()">Clear</button>
+</div>
+</div>
+
+<div class="card">
+<label>Output</label>
+
+<div class="output" id="output">
+Result will appear here...
+</div>
+
+<br>
+
+<div class="actions">
+<button class="copy" onclick="copyOutput()">Copy Output</button>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+Modern Encryption Tool • Browser Based
+</div>
+
+</div>
+
+<script>
+
+function xorCipher(text,key){
+    let result="";
+    for(let i=0;i<text.length;i++){
+        result+=String.fromCharCode(
+            text.charCodeAt(i)^
+            key.charCodeAt(i%key.length)
+        );
+    }
+    return result;
+}
+
+function encryptText(){
+    let text=document.getElementById("text").value;
+    let key=document.getElementById("key").value;
+
+    if(!key){
+        alert("Enter a secret key");
+        return;
+    }
+
+    let encrypted=btoa(xorCipher(text,key));
+    document.getElementById("output").textContent=encrypted;
+}
+
+function decryptText(){
+    let text=document.getElementById("text").value;
+    let key=document.getElementById("key").value;
+
+    if(!key){
+        alert("Enter a secret key");
+        return;
+    }
+
+    try{
+        let decrypted=xorCipher(atob(text),key);
+        document.getElementById("output").textContent=decrypted;
+    }
+    catch{
+        document.getElementById("output").textContent="Invalid encrypted text.";
+    }
+}
+
+function copyOutput(){
+    navigator.clipboard.writeText(
+        document.getElementById("output").textContent
+    );
+    alert("Copied!");
+}
+
+function clearAll(){
+    document.getElementById("text").value="";
+    document.getElementById("key").value="";
+    document.getElementById("output").textContent="Result will appear here...";
+}
+
+</script>
 
 </body>
 </html>
-cobreiqnjbafhqrq
 
